@@ -56,6 +56,7 @@ class Board extends React.Component {
   renderSquare(i) {
     return (
       <Square
+        key={i}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
       />
@@ -63,25 +64,23 @@ class Board extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
+    let row = []
+    let index = 0
+    for (let i = 0;i < 3;i++) {
+      let column = []
+      for (let j = 0;j < 3;j++) {
+        column.push(this.renderSquare(index))
+        index++
+      }
+
+      row.push((
+        <div className="board-row" key={index}>
+          {column}
         </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    )
+      ))
+    }
+
+    return row
   }
 }
 
@@ -124,7 +123,7 @@ class Game extends React.Component {
     const history = this.state.history
     const current = history[this.state.stepNumber]
     const winner = calculateWinner(current.squares)
-    
+
     const moves = history.map((step, move) => {
       const previous = move === 0 ? Array(9).fill(null) : history[move - 1].squares
       const coordnate = getLastCoordnate(previous, history[move].squares)
@@ -132,7 +131,7 @@ class Game extends React.Component {
       const desc = move ? `Go to move #${move} : ${coordnate}` : 'Go to game start'
 
       return (
-        <li className={move === this.state.stepNumber ? 'is-active': ''} key={move}>
+        <li className={move === this.state.stepNumber ? 'is-active' : ''} key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       )
