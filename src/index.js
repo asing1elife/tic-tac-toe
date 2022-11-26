@@ -2,6 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 
+const COORDNATE_MAP = [
+  '0,0', '0,1', '0,2',
+  '1,0', '1,1', '1,2',
+  '2,0', '2,1', '2,2'
+]
+
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
@@ -19,6 +25,17 @@ function calculateWinner(squares) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a]
     }
+  }
+
+  return null
+}
+
+function getLastCoordnate(previous, current) {
+  for (let i = 0;i < current.length;i++) {
+    const previousItem = previous[i]
+    const item = current[i]
+    
+    if (!previousItem && item) return COORDNATE_MAP[i]
   }
 
   return null
@@ -109,7 +126,10 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares)
 
     const moves = history.map((step, move) => {
-      const desc = move ? `Go to move #${move}` : 'Go to game start'
+      const previous = move === 0 ? Array(9).fill(null) : history[move - 1].squares
+      const coordnate = getLastCoordnate(previous, history[move].squares)
+
+      const desc = move ? `Go to move #${move} : ${coordnate}` : 'Go to game start'
 
       return (
         <li key={move}>
