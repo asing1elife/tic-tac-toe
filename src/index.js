@@ -34,7 +34,7 @@ function getLastCoordnate(previous, current) {
   for (let i = 0;i < current.length;i++) {
     const previousItem = previous[i]
     const item = current[i]
-    
+
     if (!previousItem && item) return COORDNATE_MAP[i]
   }
 
@@ -124,7 +124,7 @@ class Game extends React.Component {
     const history = this.state.history
     const current = history[this.state.stepNumber]
     const winner = calculateWinner(current.squares)
-
+    
     const moves = history.map((step, move) => {
       const previous = move === 0 ? Array(9).fill(null) : history[move - 1].squares
       const coordnate = getLastCoordnate(previous, history[move].squares)
@@ -132,7 +132,7 @@ class Game extends React.Component {
       const desc = move ? `Go to move #${move} : ${coordnate}` : 'Go to game start'
 
       return (
-        <li key={move}>
+        <li className={move === this.state.stepNumber ? 'is-active': ''} key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       )

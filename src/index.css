@@ -53,3 +53,8 @@ ul {
 .game-info ol li {
   margin-bottom: 10px;
 }
+
+.game-info ol li.is-active {
+  font-weight: 700;
+  color: red;
+}
