@@ -112,6 +112,10 @@ class Game extends React.Component {
     })
   }
 
+  handleSort() {
+    
+  }
+
   jumpTo(step) {
     this.setState({
       stepNumber: step,
@@ -154,6 +158,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
+          <button className="sort-btn" onClick={() => this.handleSort()}>排序</button>
           <ol>{moves}</ol>
         </div>
       </div>
